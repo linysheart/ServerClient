@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+    
+    <bean id="rmiFactoryBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://192.168.0.243:1099/rmiJobService" />
+        <property name="serviceInterface" value="com.server.rmi.service.RmiJobService" />
+        <property name="lookupStubOnStartup" value="false"/>
+        <property name="refreshStubOnConnectFailure" value="true"/>
+        <property name="cacheStub" value="false"/>
+    </bean>
+    <bean id="client" class="com.client.JobExecuter" init-method="exec">
+        <property name="jobService" ref="rmiFactoryBean" />
+        <property name="execThreadCount" value="5"/>
+    </bean>
+</beans>
